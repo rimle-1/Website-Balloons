@@ -140,7 +140,11 @@ body.menu-open {
 
 /* Hero Section */
 .hero {
-  background-color: var(--soft-pink);
+  /* background-color: var(--soft-pink); */
+  background-image: url('../image/banner.jpg'); /* путь к картинке */
+  background-size: cover; /* чтобы картинка заполняла блок */
+  background-position: center; /* центрируем */
+  background-repeat: no-repeat; /* без повторов */
   padding: 80px 0;
   text-align: center;
   border-radius: 0 0 50px 50px;
