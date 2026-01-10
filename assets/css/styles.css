@@ -506,4 +506,10 @@ body.menu-open {
   .burger-menu {
     display: flex;
   }
+  .filter-container {
+    flex-wrap: wrap;
+  }
+  .hero {
+    background-image: url('../image/banner-mobile.jpg'); /* путь к картинке */
+  }
 }
