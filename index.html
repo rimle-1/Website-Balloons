@@ -12,26 +12,32 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
-    <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
   <body>
     <header class="header">
       <div class="container nav-container">
-        <div class="logo">
-          <img src="https://via.placeholder.com/30x30" alt="" />
+        <a href="#" class="logo">
+          <img
+            src="https://via.placeholder.com/30x30/FF85A2/FFFFFF?text=🎈"
+            alt="Logo"
+          />
           <span>Шары.Ру</span>
-        </div>
-        <nav class="nav-menu">
-          <a href="#">Каталог</a>
-          <a href="#">Доставка</a>
-          <a href="#">Контакты</a>
+        </a>
+
+        <button class="burger-menu" id="burgerToggle">
+          <span></span><span></span><span></span>
+        </button>
+
+        <nav class="nav-menu" id="navMenu">
+          <a href="#catalog">Каталог</a>
+          <a href="#benefits">О нас</a>
+          <a href="#" id="contactLinkNav">Контакты</a>
         </nav>
+
         <div class="user-actions">
-          <a href="#"><i class="fa-regular fa-user"></i> Вход</a>
-          <a href="#"><i class="fa-regular fa-heart"></i> Избранное</a>
           <div class="cart-wrapper">
             <i class="fa-solid fa-cart-shopping"></i>
-            <span class="cart-count">1</span>
+            <span class="cart-count">0</span>
           </div>
         </div>
       </div>
@@ -43,54 +49,36 @@
           Воздушные шары <br />
           для вашего праздника!
         </h1>
-        <p>Большой выбор шаров на любой повод</p>
-        <button class="btn-primary">Выбрать шары</button>
+        <p>Выберите способ связи и оформите заказ за 1 минуту</p>
+        <button class="btn-primary" onclick="scrollToCatalog()">
+          Выбрать шары
+        </button>
       </div>
     </section>
 
-    <section class="filters container">
-      <select>
-        <option>Цвет</option>
-      </select>
-      <select>
-        <option>Форма</option>
-      </select>
-      <select>
-        <option>Размер</option>
-      </select>
-      <select>
-        <option>Повод</option>
-      </select>
-      <button class="btn-show">
-        Показать <i class="fa-solid fa-angles-right"></i>
-      </button>
-    </section>
+    <div class="container filter-section">
+      <div class="filter-container">
+        <button class="filter-btn active" data-filter="all">Все</button>
+        <button class="filter-btn" data-filter="birthday">День рождения</button>
+        <button class="filter-btn" data-filter="baby">Выписка</button>
+        <button class="filter-btn" data-filter="wedding">Свадьба</button>
+      </div>
+    </div>
 
-    <section class="catalog container">
-      <div class="product-card">
+    <section class="catalog container" id="catalog">
+      <div class="product-card" data-category="birthday">
         <div class="product-img">
-          <img
-            src="https://i.imgur.com/xT5RzXm.png"
-            alt="Набор Розовая Мечта"
-          />
+          <img src="https://i.imgur.com/xT5RzXm.png" alt="Набор" />
         </div>
         <div class="product-info">
           <div class="product-header">
             <h3>Набор «Розовая Мечта»</h3>
             <span class="price">1 490 ₽</span>
           </div>
-          <div class="product-footer">
-            <div class="color-options">
-              <span class="dot pink"></span>
-              <span class="dot purple"></span>
-              <span class="dot gray"></span>
-            </div>
-            <button class="btn-cart">В корзину</button>
-          </div>
+          <button class="btn-cart">В корзину</button>
         </div>
       </div>
-
-      <div class="product-card">
+      <div class="product-card" data-category="wedding">
         <div class="product-img">
           <img src="https://i.imgur.com/8mYfE8E.png" alt="Сердце" />
         </div>
@@ -99,42 +87,133 @@
             <h3>Фольгированное Сердце</h3>
             <span class="price">350 ₽</span>
           </div>
-          <div class="product-footer">
-            <div class="color-options">
-              <span class="dot pink"></span>
-              <span class="dot cyan"></span>
-              <span class="dot yellow"></span>
+          <button class="btn-cart">В корзину</button>
+        </div>
+      </div>
+      <div class="product-card" data-category="baby">
+        <div class="product-img">
+          <img
+            src="https://via.placeholder.com/250x250/FFF0F3/FF85A2?text=👶"
+            alt="Выписка"
+          />
+        </div>
+        <div class="product-info">
+          <div class="product-header">
+            <h3>Набор «С пополнением!»</h3>
+            <span class="price">2 100 ₽</span>
+          </div>
+          <button class="btn-cart">В корзину</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="benefits" id="benefits">
+      <div class="container">
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-icon">
+              <i class="fa-solid fa-truck-fast"></i>
             </div>
-            <button class="btn-cart">В корзину</button>
+            <h4>Доставка 24/7</h4>
+            <p>Доставим ваш заказ в любое время суток прямо до двери.</p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon"><i class="fa-solid fa-award"></i></div>
+            <h4>Гарантия полета</h4>
+            <p>Все шары обрабатываются Hi-Float для долгого полета.</p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">
+              <i class="fa-solid fa-camera-retro"></i>
+            </div>
+            <h4>Фото перед отправкой</h4>
+            <p>Пришлем фото готовой композиции перед выездом курьера.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <div id="contactModal" class="modal">
+    <section class="custom-order container">
+      <div class="custom-order-content">
+        <h2>Не нашли то, что искали?</h2>
+        <p>
+          Мы готовы создать дизайн воздушных шаров конкретно под ваше
+          мероприятие! Свяжитесь с нами для индивидуального расчета.
+        </p>
+        <a
+          href="https://wa.me/70000000000"
+          class="btn-wa-large"
+          target="_blank"
+        >
+          <i class="fa-brands fa-whatsapp"></i> Написать в WhatsApp
+        </a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <a href="#" class="footer-logo">Шары.Ру</a>
+            <p style="color: #aaa; font-size: 14px; margin-top: 10px">
+              Дарим яркие эмоции с 2015 года.
+            </p>
+            <div class="footer-social">
+              <a href="#" class="social-icon"
+                ><i class="fa-brands fa-vk"></i
+              ></a>
+              <a href="#" class="social-icon"
+                ><i class="fa-brands fa-telegram"></i
+              ></a>
+            </div>
+          </div>
+          <div>
+            <h5 style="margin-bottom: 15px">Каталог</h5>
+            <ul class="footer-links">
+              <li><a href="#">Наборы шаров</a></li>
+              <li><a href="#">Цифры</a></li>
+            </ul>
+          </div>
+          <div>
+            <h5 style="margin-bottom: 15px">Контакты</h5>
+            <ul class="footer-links">
+              <li><a href="tel:+70000000000">+7 (000) 000-00-00</a></li>
+              <li><a href="#">ул. Праздничная, д. 1</a></li>
+            </ul>
+          </div>
+        </div>
+        <div
+          style="
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #333;
+            font-size: 12px;
+            color: #777;
+          "
+        >
+          &copy; 2024 Шары.Ру. Все права защищены.
+        </div>
+      </div>
+    </footer>
+
+    <div id="orderModal" class="modal">
       <div class="modal-content">
-        <span class="close-modal">&times;</span>
-        <h2>Связаться с нами</h2>
+        <span class="close-modal" id="closeOrderModal">&times;</span>
+        <div style="font-size: 50px; margin-bottom: 15px">🎈</div>
+        <h2>Оформить заказ</h2>
+        <p>Выберите удобный способ связи. Мы ответим вам в течение 5 минут!</p>
         <div class="contact-buttons">
-          <a href="tel:+70000000000" class="c-btn"
-            ><i class="fa-solid fa-phone"></i> Телефон</a
-          >
-          <a href="#" class="c-btn wa"
-            ><i class="fa-brands fa-whatsapp"></i> WhatsApp</a
+          <a href="tel:+70000000000" class="c-btn phone"
+            ><i class="fa-solid fa-phone"></i> Позвонить</a
           >
           <a href="#" class="c-btn tg"
             ><i class="fa-brands fa-telegram"></i> Telegram</a
           >
-          <a href="#" class="c-btn vk"
-            ><i class="fa-brands fa-vk"></i> Вконтакте</a
-          >
-          <a href="#" class="c-btn inst"
-            ><i class="fa-brands fa-instagram"></i> Instagram</a
+          <a href="#" class="c-btn wa"
+            ><i class="fa-brands fa-whatsapp"></i> WhatsApp</a
           >
         </div>
       </div>
     </div>
-
-    <script src="assets/js/scripts.js"></script>
   </body>
 </html>
