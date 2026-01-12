@@ -296,6 +296,7 @@ body.menu-open {
   font-weight: 700;
   color: var(--primary-pink);
   font-size: 18px;
+  white-space: nowrap;
 }
 
 .btn-cart {

@@ -29,9 +29,12 @@ filterBtns.forEach((btn) => {
 // Клик по всей карточке товара
 productCards.forEach((card) => {
   card.onclick = () => {
-    count++;
-    cartCount.innerText = count;
     modal.style.display = 'flex';
+
+    if (cartCount) {
+      count++;
+      cartCount.innerText = count;
+    }
   };
 });
 
