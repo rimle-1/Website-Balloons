@@ -1,7 +1,7 @@
 :root {
   --primary-pink: #f6798b;
   --soft-pink: #fff0f3;
-  --dark-text: #333;
+  --dark-text: #4e525b;
   --light-text: #777;
   --white: #ffffff;
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
