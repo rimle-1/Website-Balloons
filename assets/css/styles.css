@@ -1,5 +1,5 @@
 :root {
-  --primary-pink: #ff85a2;
+  --primary-pink: #f6798b;
   --soft-pink: #fff0f3;
   --dark-text: #333;
   --light-text: #777;
@@ -11,14 +11,26 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  line-height: normal;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  line-height: normal;
 }
 
 body {
   font-family: 'Montserrat', sans-serif;
   color: var(--dark-text);
   line-height: 1.6;
-  background-color: #fcfcfc;
+  background-color: #fefdfe;
   overflow-x: hidden;
+  background-image: url(https://cdn.prod.website-files.com/6674f0cdb5b7b401612cf015/6674f0cdb5b7b401612cf065_noise-50.avif);
+  background-position: 0 0;
+  background-size: 200px 200px;
 }
 
 body.menu-open {
@@ -148,6 +160,7 @@ body.menu-open {
   padding: 80px 0;
   text-align: center;
   border-radius: 0 0 50px 50px;
+  border: 1px solid #0000000a;
   margin-bottom: 40px;
 }
 
@@ -155,7 +168,12 @@ body.menu-open {
   font-size: 42px;
   font-weight: 700;
   margin-bottom: 20px;
-  color: #444;
+  line-height: normal;
+  color: #4e525b;
+}
+
+.hero p {
+  margin-bottom: 20px;
 }
 
 .btn-primary {
@@ -197,6 +215,7 @@ body.menu-open {
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
 .filter-btn.active {
@@ -218,6 +237,7 @@ body.menu-open {
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #0000001f;
   transition: var(--transition);
   cursor: pointer; /* Делаем всю карточку кликабельной */
   position: relative;
@@ -298,8 +318,7 @@ body.menu-open {
 
 /* Benefits */
 .benefits {
-  padding: 60px 0;
-  background: #fff;
+  /* padding: 60px 0; */
 }
 .benefits-grid {
   display: grid;
@@ -307,13 +326,14 @@ body.menu-open {
   gap: 20px;
 }
 .benefit-card {
-  background: var(--soft-pink);
+  background: #ffdde4;
   padding: 30px;
   border-radius: 25px;
   display: flex;
   flex-direction: column;
   gap: 15px;
   transition: var(--transition);
+  border: 1px solid #00000014;
 }
 .benefit-card:hover {
   transform: translateY(-5px);
@@ -333,6 +353,10 @@ body.menu-open {
   padding: 60px 40px;
   border-radius: 40px;
   color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
 }
 .btn-wa-large {
   display: inline-flex;
