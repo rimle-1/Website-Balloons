@@ -52,3 +52,12 @@ window.onclick = (e) => {
 function scrollToCatalog() {
   document.getElementById('catalog').scrollIntoView({ behavior: 'smooth' });
 }
+
+document.querySelectorAll('.product-card.adult').forEach((card) => {
+  const overlay = card.querySelector('.adult-overlay');
+
+  overlay.addEventListener('click', () => {
+    card.classList.remove('locked');
+    card.classList.add('unlocked');
+  });
+});
