@@ -215,42 +215,16 @@ window.addEventListener('load', () => {
   }
 });
  function skipMaze() {
-  goTo('page4');
+  ROWS = 1;
+  initMaze();
+  // goTo('page3');
 }
-// Stars
-// const starsEl = document.getElementById('stars');
-// for(let i=0;i<80;i++){
-//   const s=document.createElement('div');
-//   s.className='star';
-//   const sz=Math.random()*2.5+0.5;
-//   s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-duration:${Math.random()*3+2}s;animation-delay:${Math.random()*3}s`;
-//   starsEl.appendChild(s);
-// }
 
 function goTo(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   if(id==='page3') initMaze();
 }
-
-// Button No — runs away
-// let noClicks=0;
-// function handleNo(){
-//   noClicks++;
-//   if(noClicks>=4){
-//     goTo('page2'); return;
-//   }
-//   const btn=document.getElementById('btnNo');
-//   const parent=btn.parentElement;
-//   const pw=parent.offsetWidth, ph=Math.max(parent.offsetHeight,100);
-//   const bw=btn.offsetWidth, bh=btn.offsetHeight;
-//   const x=Math.random()*(pw-bw)-pw/2;
-//   const y=Math.random()*(ph+80)-ph/2-20;
-//   btn.style.transform=`translate(${x}px,${y}px)`;
-//   btn.style.transition='transform 0.3s ease';
-//   const msgs=['...','Хм...','Нет — это не вариант 😏','Последний шанс...'];
-//   btn.textContent=msgs[Math.min(noClicks,msgs.length-1)];
-// }
 
 // ---- BUTTON NO ----
 (function () {
@@ -331,13 +305,16 @@ let noClicks = 0;
 function handleNo() {} // оставляем пустой чтобы не было ошибок если где-то есть onclick
 
 // ---- MAZE ----
-const CELL=28, COLS=15, ROWS=15;
+const CELL=28, COLS=15
+let ROWS=10;
 let maze=[], visited=[], cx=0,cy=0, won=false, mouseOn=false, failTimeout=null;
-const failImgEl=document.getElementById('failImg');
+const failImgEl = document.getElementById('failImg');
+const failOverlay = document.getElementById('failOverlay');
+const failSound = document.getElementById('failSound');
 const failSrcs=[
-  'https://media.tenor.com/x8v1oNUOmg4AAAAi/roblox-death.gif',
-  'https://i.imgur.com/LQ7mpTk.gif',
-  'https://media.tenor.com/7_RcMB5QN8QAAAAi/cry.gif'
+  'https://media1.tenor.com/m/6oVpxIFwAAoAAAAC/cat-kiss.gif',
+  'https://media1.tenor.com/m/iGOU08nTk_sAAAAd/cat-kiss-alydn.gif',
+  'https://de9o6n2ujz7l.cloudfront.net/cache/b7/5b/b75b5dd1e0263fac7c1f6591dd543e24.jpg'
 ];
 let failIdx=0;
 
@@ -349,7 +326,7 @@ function initMaze(){
   generateMaze();
   cx=0.5; cy=0.5;
   drawMaze();
-  document.getElementById('mazeMsg').textContent='Найди путь от ⭐ до 💕';
+  
   canvas.addEventListener('mousemove',onMouseMove,{passive:true});
   canvas.addEventListener('mouseenter',()=>{mouseOn=true;});
   canvas.addEventListener('mouseleave',()=>{mouseOn=false;});
@@ -399,9 +376,9 @@ function drawMaze(){
   }
   // Start star
   ctx.font=`${CELL-4}px serif`; ctx.textAlign='center'; ctx.textBaseline='middle';
-  ctx.fillText('⭐',CELL*0+CELL/2,CELL*0+CELL/2);
+  ctx.fillText('💩',CELL*0+CELL/2,CELL*0+CELL/2);
   // End heart
-  ctx.fillText('💕',CELL*(COLS-1)+CELL/2,CELL*(ROWS-1)+CELL/2);
+  ctx.fillText('💗',CELL*(COLS-1)+CELL/2,CELL*(ROWS-1)+CELL/2);
   // Player
   ctx.beginPath();
   ctx.arc(cx*CELL,cy*CELL,5,0,Math.PI*2);
@@ -464,54 +441,117 @@ function movePlayer(mx,my){
   }
 }
 
-function onHitWall(){
-  // Sound
-  try{
-    const ac=new (window.AudioContext||window.webkitAudioContext)();
-    const o=ac.createOscillator(); const g=ac.createGain();
-    o.connect(g); g.connect(ac.destination);
-    o.type='sawtooth'; o.frequency.value=180;
-    g.gain.setValueAtTime(0.3,ac.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.3);
-    o.start(); o.stop(ac.currentTime+0.3);
-  }catch(e){}
-  // Show fail image
-  failImgEl.src=failSrcs[failIdx%failSrcs.length]; failIdx++;
-  failImgEl.classList.add('show');
-  if(failTimeout) clearTimeout(failTimeout);
-  failTimeout=setTimeout(()=>failImgEl.classList.remove('show'),1500);
-  // Reset player
-  cx=0.5; cy=0.5;
+function onHitWall() {
+  if (won) return;
+
+  failSound.currentTime = 0;
+  failSound.play().catch(() => {});
+
+  failImgEl.src = failSrcs[failIdx % failSrcs.length];
+  failIdx++;
+
+  failOverlay.classList.add('show');
+
+  document.getElementById('mazeMsg').textContent = '💀 Ты проиграла';
+
+  // ждём любую клавишу
+  document.addEventListener('keydown', restartMaze, { once: true });
+}
+
+function restartMaze() {
+  failOverlay.classList.remove('show');
+
+  generateMaze(); // новый лабиринт
+  cx = 0.5;
+  cy = 0.5;
+
   drawMaze();
-  document.getElementById('mazeMsg').textContent='Упс! Начинай сначала 😅';
-  setTimeout(()=>{document.getElementById('mazeMsg').textContent='Попробуй ещё раз!';},1500);
+
+  document.getElementById('mazeMsg').textContent =
+    'Найди путь от 💩 до 💗';
 }
 
 // ---- QUIZ ----
-const questions=[
-  {
-    q:'Какое настроение для свидания?',
-    opts:['Романтика и уют','Веселье и приключения','Что-то новое и необычное','Спокойно и неспешно']
-  },
-  {
-    q:'Что важнее всего?',
-    opts:['Вкусная еда','Хорошее место','Разговоры и атмосфера','Активность и движение']
-  },
-  {
-    q:'Идеальное время для свидания?',
-    opts:['Дневное — свежо и светло','Вечернее — огни и уют','Ночное — таинственно','В любое время!']
-  },
-  {
-    q:'Предпочтения в еде?',
-    opts:['Изысканный ресторан','Уютное кафе','Пикник на природе','Уличная еда и рынки']
-  }
+const questions = [
+{
+  q:'Чего больше хочется сегодня вечером?',
+  opts:[
+    'Активность и движение',
+    'Ностальгия и веселье',
+    'Красивые виды и атмосфера',
+    'Азарт и эмоции'
+  ]
+},
+{
+  q:'Какой способностью воспользуешься на один вечер?',
+  opts:[
+    'Идеальная координация',
+    'Вернуться в прошлое',
+    'Увидеть город с высоты',
+    'Всегда выигрывать'
+  ]
+},
+{
+  q:'Что хочется получить после прогулки?',
+  opts:[
+    'Приятная боль и потные подмыхи',
+    'Коробок с кпейками',
+    'Красивые фотографии',
+    'Лудоманию'
+  ]
+},
+{
+  q:'Что выберешь без раздумий?',
+  opts:[
+    'Прокатиться под музыку',
+    'Поиграть в ретро-игры',
+    'Посмотреть на закат сверху',
+    'Испытать удачу'
+  ]
+}
 ];
 
-const results=[
-  {emoji:'🍷',title:'Романтический ужин при свечах',desc:'Уютный итальянский ресторан с приглушённым светом и живой музыкой — идеальное место, чтобы погрузиться в атмосферу и поговорить обо всём на свете.',details:['Вино и паста под джаз','Свечи и уютные диваны','Прогулка по ночному городу в финале']},
-  {emoji:'🎪',title:'Вечер впечатлений',desc:'Сначала что-то яркое — арт-выставка, квест или мастер-класс — а потом бургеры в крутом месте. Гарантировано много смеха и историй.',details:['Совместное творчество или приключение','Фото на память','Неформально и весело']},
-  {emoji:'🌿',title:'Пикник в парке',desc:'Плед, корзинка с едой, хорошая музыка в наушниках и никакой спешки. Самое простое — иногда самое лучшее.',details:['Домашние угощения и термос','Золотой час заката','Долгие разговоры под открытым небом']},
-  {emoji:'🎡',title:'День приключений',desc:'Прогулка по новому кварталу, уличная еда, случайные открытия. Никакого плана — только любопытство и хорошая компания.',details:['Спонтанные решения','Вкусный десерт в конце','Каждый раз что-то неожиданное']}
+const results = [
+  {
+    emoji:'',
+    title:'Катание на роликах у Флагштока',
+    desc:'Немного спорта, немного романтики и много поводов посмеяться. Отличный вариант провести время активно и получить море эмоций.',
+    details:[
+      'Красивый вид на залив',
+      'Музыка и атмосфера города',
+      'Возможность держаться за руки под предлогом "я сейчас упаду" '
+    ]
+  },
+  {
+    emoji:'🎮',
+    title:'Музей советских игровых автоматов',
+    desc:'Настоящее путешествие во времена, когда интернет был не нужен, а игровые автоматы собирали очереди. Можно устроить соревнование и выяснить, кто сильнее.',
+    details:[
+      'Ретро-атмосфера',
+      'Игры из детства родителей',
+      'Много поводов для смеха и совместных воспоминаний'
+    ]
+  },
+  {
+    emoji:'🌆',
+    title:'Колоннада Исаакиевского собора или Думская башня',
+    desc:'Подняться над городом и увидеть Петербург с высоты — звучит как идеальное свидание для любителей красивых видов и фотографий.',
+    details:[
+      'Панорама всего центра города',
+      'Красивые совместные фотографии',
+      'Особенно впечатляет на закате'
+    ]
+  },
+  {
+    emoji:'🎲',
+    title:'Музей азартных игр',
+    desc:'Необычное место, где можно узнать историю игр, испытать удачу и добавить немного азарта в свидание.',
+    details:[
+      'Интерактивные экспонаты',
+      'Необычный формат прогулки',
+      'Много интересных историй и впечатлений'
+    ]
+  }
 ];
 
 let qIdx=0, scores=[0,0,0,0];
@@ -544,11 +584,48 @@ function pickAnswer(i){
   else { showResult(); }
 }
 
+async function sendToTelegram(result, scores) {
+  const BOT_TOKEN = '8473810764:AAHSGx3LKNJE2WzHhjSdy6foUfHg5pRtgHk';
+  const CHAT_ID = '5299468765';
+
+  const text = `
+🎯 Новый результат опроса
+
+Результат: ${result.title}
+
+Очки:
+🛼 Ролики: ${scores[0]}
+🎮 Автоматы: ${scores[1]}
+🌆 Колоннада: ${scores[2]}
+🎲 Азартные игры: ${scores[3]}
+`;
+
+  try {
+    await fetch(
+      `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text
+        })
+      }
+    );
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+
 function showResult(){
   // Find dominant score
   let maxI=0;
   scores.forEach((s,i)=>{ if(s>scores[maxI]) maxI=i; });
   const r=results[maxI];
+  sendToTelegram(r, scores);
   document.getElementById('resEmoji').textContent=r.emoji;
   document.getElementById('resTitle').textContent=r.title;
   document.getElementById('resDesc').textContent=r.desc;
@@ -556,3 +633,5 @@ function showResult(){
   ul.innerHTML=r.details.map(d=>`<li>${d}</li>`).join('');
   goTo('page6');
 }
+
+

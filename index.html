@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="./assets/css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./assets/css/styles.css">
 <title>Приглашение</title>
 </head>
 <body>
@@ -26,7 +29,7 @@
   <div id="grain"></div>
 
   <video id="videoBg" autoplay muted loop playsinline>
-    <source src="/ys46jr5ha9r00qyc1u3vqk1b.mp4" type="video/mp4">
+    <source src="./assets/image/ys46jr5ha9r00qyc1u3vqk1b.mp4" type="video/mp4">
     <!-- <source src="/ys46jr5ha9r00qyc1u3vqk1b 4K.mp4" type="video/mp4"> -->
   </video>
   <div id="videoOverlay"></div>
@@ -38,14 +41,14 @@
   <div class="page active" id="page1">
     <div class="content">
       <div class="title-mem">Я знаю себе цену</div>
-      <div class="subtitle-mem">и сейчас я</div>
+      <div class="subtitle-mem">и сейчаc</div>
       <div class="subtitle-mem-2">по акции</div>
       <div class="hearts">скидка 100%</div>
       <!-- <h1>Пойдёшь со мной<br>на свидание?</h1> -->
       <!-- <p>Это важный вопрос, подумай хорошенько...</p> -->
       <h1>Газ знакомиться,<br>пойдешь со мной на свидание?</h1>
-      <p>Заценила что на фон поставил???</p>
-      <div class="btn-group" style="position:relative; min-height: 300px;">
+      <p>Заценила, что на фон поставил???</p>
+      <div class="btn-group" style="position:relative;">
         <button class="btn-yes" onclick="goTo('page3')">Коненчо, мне нравятся анимешники! </button> <br>
         <button class="btn-no" id="btnNo" onclick="handleNo()">Нет, я ем какашки</button>
       </div>
@@ -68,13 +71,23 @@
       <h2>Докажи, что достойна!</h2>
       <p>Проведи мышку по лабиринту, не касаясь стен 🖱️</p>
       <canvas id="mazeCanvas" width="420" height="420"></canvas>
-      <div id="mazeMsg">Найди путь от ⭐ до 💕</div>
     </div>
-  <div id="mazeMsg">Найди путь от ⭐ до 💕</div>
+  <div id="mazeMsg">Найди путь от 💩 до 💗</div>
 
   <button class="btn-back" onclick="skipMaze()">
-    Пропустить испытание 😏
+    Признаю что я слабая... ПАМАГИТЕ
   </button>
+  </div>
+  
+  <div id="failOverlay" class="fail-overlay">
+    <img id="failImg" class="fail-fullscreen" src="" alt="fail">
+
+    <button class="btn-yes restart-btn" onclick="restartMaze()">
+      Начать сначала
+    </button>
+
+    <!-- Твой звук -->
+    <audio id="failSound" src="./assets/image/kiss.mp3"></audio>
   </div>
 
   <!-- Fail image overlay -->
@@ -85,8 +98,8 @@
     <div class="content">
       <div class="trophy">🏆</div>
       <h2>Невероятно.</h2>
-      <p>Ты прошла лабиринт. Видимо, тебе это правда было нужно. Или просто повезло. В любом случае — поздравляю, ты официально заслужила свидание со мной. 😏</p>
-      <button class="btn-yes" onclick="startQuiz()">Ладно, где идём? →</button>
+      <p>Ты прошла! </p>
+      <button class="btn-yes" onclick="startQuiz()">Ладно, осталось чуть-чуть →</button>
     </div>
   </div>
 
@@ -114,5 +127,5 @@
   </div>
 
 </body>
-  <script src="./assets/js/script.js"></script>
+  <script src="./assets/js/scripts.js"></script>
 </html>
