@@ -3,448 +3,113 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="./css/styles.css">
 <title>Приглашение</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Georgia', serif; background: #1a0a2e; min-height: 100vh; color: #fff; overflow-x: hidden; }
-
-  .page { display: none; min-height: 100vh; align-items: center; justify-content: center; flex-direction: column; padding: 2rem; text-align: center; animation: fadeIn 0.6s ease; }
-  .page.active { display: flex; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-  /* Stars */
-  .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-  .star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle linear infinite; }
-  @keyframes twinkle { 0%,100%{opacity:0.2} 50%{opacity:1} }
-
-  .content { position: relative; z-index: 1; }
-
-  /* Page 1 */
-  #page1 h1 { font-size: clamp(1.8rem, 5vw, 3rem); color: #f9c6e0; text-shadow: 0 0 30px rgba(249,198,224,0.5); margin-bottom: 0.5rem; line-height: 1.3; }
-  #page1 p { font-size: 1.1rem; color: #d4a0c0; margin-bottom: 2.5rem; }
-  .hearts { font-size: 2rem; margin-bottom: 1rem; animation: pulse 1.5s ease infinite; }
-  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
-  .btn-group { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; }
-  .btn-yes { background: linear-gradient(135deg, #e91e8c, #9c27b0); border: none; color: #fff; font-size: 1.3rem; padding: 1rem 2.5rem; border-radius: 50px; cursor: pointer; font-family: 'Georgia', serif; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 20px rgba(233,30,140,0.4); }
-  .btn-yes:hover { transform: scale(1.07); box-shadow: 0 6px 30px rgba(233,30,140,0.6); }
-  .btn-no { background: transparent; border: 2px solid #7a5070; color: #b080a0; font-size: 1.1rem; padding: 0.9rem 2rem; border-radius: 50px; cursor: pointer; font-family: 'Georgia', serif; transition: all 0.2s; position: absolute; }
-  .btn-no:hover { color: #d0a0c0; }
-
-  /* Page 2 - No */
-  #page2 { background: #0d0010; }
-  #page2 img { max-width: min(350px, 90vw); border-radius: 16px; box-shadow: 0 0 40px rgba(200,0,0,0.4); margin-bottom: 1.5rem; }
-  #page2 h2 { font-size: 1.6rem; color: #f9c6e0; margin-bottom: 1rem; }
-  .btn-back { background: linear-gradient(135deg, #e91e8c, #9c27b0); border: none; color: #fff; font-size: 1rem; padding: 0.8rem 2rem; border-radius: 50px; cursor: pointer; font-family: 'Georgia', serif; margin-top: 1rem; transition: transform 0.2s; }
-  .btn-back:hover { transform: scale(1.05); }
-
-  /* Page 3 - Maze */
-  #page3 h2 { font-size: 1.6rem; color: #f9c6e0; margin-bottom: 0.5rem; }
-  #page3 p { color: #d4a0c0; margin-bottom: 1rem; font-size: 0.95rem; }
-  #mazeCanvas { border: 3px solid #e91e8c; border-radius: 8px; cursor: none; display: block; box-shadow: 0 0 30px rgba(233,30,140,0.3); max-width: 100%; }
-  #mazeMsg { font-size: 1rem; color: #f9c6e0; margin-top: 0.8rem; min-height: 1.5rem; transition: opacity 0.3s; }
-  .fail-img { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%) scale(0); z-index: 100; border-radius: 16px; max-width: 280px; transition: transform 0.3s cubic-bezier(0.175,0.885,0.32,1.275); pointer-events: none; }
-  .fail-img.show { transform: translate(-50%,-50%) scale(1); }
-
-  /* Page 4 - Win */
-  #page4 h2 { font-size: 2rem; color: #f9c6e0; margin-bottom: 0.5rem; }
-  #page4 .trophy { font-size: 4rem; margin-bottom: 1rem; animation: bounce 0.8s ease infinite alternate; }
-  @keyframes bounce { from{transform:translateY(0)} to{transform:translateY(-12px)} }
-  #page4 p { color: #d4a0c0; font-size: 1.1rem; max-width: 400px; margin: 0 auto 2rem; line-height: 1.6; }
-  #page4 .btn-yes { margin-top: 0; }
-
-  /* Page 5 - Quiz */
-  #page5 h2 { font-size: 1.6rem; color: #f9c6e0; margin-bottom: 0.5rem; }
-  #page5 .q-text { font-size: 1.15rem; color: #fff; margin: 1.5rem 0 1rem; min-height: 2rem; }
-  .quiz-options { display: grid; gap: 0.8rem; width: 100%; max-width: 420px; margin: 0 auto; }
-  .quiz-opt { background: rgba(233,30,140,0.1); border: 1.5px solid rgba(233,30,140,0.4); color: #f0c0d8; font-size: 1rem; padding: 0.85rem 1.2rem; border-radius: 14px; cursor: pointer; font-family: 'Georgia', serif; text-align: left; transition: all 0.2s; }
-  .quiz-opt:hover { background: rgba(233,30,140,0.25); border-color: #e91e8c; transform: translateX(4px); }
-  .q-progress { font-size: 0.85rem; color: #9060a0; margin-top: 1rem; }
-
-  /* Page 6 - Result */
-  #page6 { }
-  #page6 .result-box { background: rgba(255,255,255,0.05); border: 1.5px solid rgba(233,30,140,0.4); border-radius: 20px; padding: 2rem 2rem; max-width: 460px; margin: 0 auto; }
-  #page6 h2 { font-size: 1.8rem; color: #f9c6e0; margin-bottom: 1rem; }
-  #page6 .result-emoji { font-size: 3.5rem; margin-bottom: 0.5rem; }
-  #page6 .result-title { font-size: 1.3rem; color: #e91e8c; font-weight: bold; margin-bottom: 0.8rem; }
-  #page6 .result-desc { color: #d4a0c0; line-height: 1.7; font-size: 1rem; }
-  #page6 .result-details { margin-top: 1rem; font-size: 0.9rem; color: #a070b0; line-height: 1.6; text-align: left; }
-  #page6 .result-details li { margin-bottom: 0.3rem; list-style: none; padding-left: 1.2rem; position: relative; }
-  #page6 .result-details li::before { content: "♥"; position: absolute; left: 0; color: #e91e8c; font-size: 0.7rem; top: 0.15rem; }
-</style>
 </head>
 <body>
 
-<div class="stars" id="stars"></div>
+  <div id="cursor"></div>
 
-<!-- Page 1: Вопрос -->
-<div class="page active" id="page1">
-  <div class="content">
-    <div class="hearts">🌹💖🌹</div>
-    <h1>Пойдёшь со мной<br>на свидание?</h1>
-    <p>Это важный вопрос, подумай хорошенько...</p>
-    <div class="btn-group" style="position:relative; min-height: 80px;">
-      <button class="btn-yes" onclick="goTo('page3')">Да, конечно! 💕</button>
-      <button class="btn-no" id="btnNo" onclick="handleNo()">Нет</button>
-    </div>
-  </div>
-</div>
+  <!-- SVG-фильтр зернистости — скрытый, нужен только как источник -->
+  <svg style="position:absolute; width:0; height:0;">
+    <filter id="grainFilter">
+      <feTurbulence
+        type="fractalNoise"
+        baseFrequency="0.65"   
+        
+        numOctaves="3"
+        stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+  </svg>
 
-<!-- Page 2: Отказ -->
-<div class="page" id="page2">
-  <div class="content">
-    <img src="https://avatars.mds.yandex.net/i?id=e2ca648efba2b4ae12b1401d88783839_l-10555888-images-thumbs&n=13" alt="грустно">
-    <h2>Ты серьёзно?.. 😢</h2>
-    <p style="color:#d4a0c0; margin-bottom:1rem;">Может, всё-таки передумаешь?</p>
-    <button class="btn-back" onclick="goTo('page1')">← Вернуться и подумать ещё раз</button>
-  </div>
-</div>
+  <div id="grain"></div>
 
-<!-- Page 3: Лабиринт -->
-<div class="page" id="page3">
-  <div class="content">
-    <h2>Докажи, что достойна!</h2>
-    <p>Проведи мышку по лабиринту, не касаясь стен 🖱️</p>
-    <canvas id="mazeCanvas" width="420" height="420"></canvas>
-    <div id="mazeMsg">Найди путь от ⭐ до 💕</div>
-  </div>
- <div id="mazeMsg">Найди путь от ⭐ до 💕</div>
+  <video id="videoBg" autoplay muted loop playsinline>
+    <!-- <source src="/ys46jr5ha9r00qyc1u3vqk1b.mp4" type="video/mp4"> -->
+    <source src="/ys46jr5ha9r00qyc1u3vqk1b 4K.mp4" type="video/mp4">
+  </video>
+  <div id="videoOverlay"></div>
+  <!-- <div class="stars" id="stars"></div> -->
 
-<button class="btn-back" onclick="skipMaze()">
-  Пропустить испытание 😏
-</button>
-</div>
+  <canvas id="bubblesCanvas"></canvas>
 
-<!-- Fail image overlay -->
-<img id="failImg" class="fail-img" src="https://i.imgur.com/5QbKSo0.gif" alt="упс">
-
-<!-- Page 4: Победа -->
-<div class="page" id="page4">
-  <div class="content">
-    <div class="trophy">🏆</div>
-    <h2>Невероятно.</h2>
-    <p>Ты прошла лабиринт. Видимо, тебе это правда было нужно. Или просто повезло. В любом случае — поздравляю, ты официально заслужила свидание со мной. 😏</p>
-    <button class="btn-yes" onclick="startQuiz()">Ладно, где идём? →</button>
-  </div>
-</div>
-
-<!-- Page 5: Опрос -->
-<div class="page" id="page5">
-  <div class="content" style="width:100%; max-width:500px;">
-    <h2>Давай выберем место</h2>
-    <div class="q-text" id="qText"></div>
-    <div class="quiz-options" id="quizOptions"></div>
-    <div class="q-progress" id="qProgress"></div>
-  </div>
-</div>
-
-<!-- Page 6: Результат -->
-<div class="page" id="page6">
-  <div class="content" style="width:100%; max-width:500px;">
-    <div class="result-box">
-      <div class="result-emoji" id="resEmoji"></div>
-      <h2>Идеальное свидание найдено!</h2>
-      <div class="result-title" id="resTitle"></div>
-      <div class="result-desc" id="resDesc"></div>
-      <ul class="result-details" id="resDetails"></ul>
-    </div>
-  </div>
-</div>
-
-<script>
- // проверка на устройство
- function isMobile() {
-  return /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(
-    navigator.userAgent
-  );
-}
-
-window.addEventListener('load', () => {
-  if (isMobile()) {
-    document.body.innerHTML = `
-      <div style="
-        min-height:100vh;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        flex-direction:column;
-        background:#1a0a2e;
-        color:white;
-        text-align:center;
-        padding:20px;
-        font-family:Georgia, serif;
-      ">
-        <h1>💻 Открой меня с компьютера</h1>
-        <p style="margin-top:15px">
-          Для прохождения испытания нужен ПК или ноутбук.
-        </p>
+  <!-- Page 1: Вопрос -->
+  <div class="page active" id="page1">
+    <div class="content">
+      <div class="hearts"></div>
+      <!-- <h1>Пойдёшь со мной<br>на свидание?</h1> -->
+      <!-- <p>Это важный вопрос, подумай хорошенько...</p> -->
+      <h1>Газ знакомиться,<br>пойдешь со мной на свидание?</h1>
+      <p>Заценила что на фон поставил???</p>
+      <div class="btn-group" style="position:relative; min-height: 300px;">
+        <button class="btn-yes" onclick="goTo('page3')">Коненчо, мне нравятся анимешники! </button> <br>
+        <button class="btn-no" id="btnNo" onclick="handleNo()">Нет, я ем какашки</button>
       </div>
-    `;
-  }
-});
- function skipMaze() {
-  goTo('page4');
-}
-// Stars
-const starsEl = document.getElementById('stars');
-for(let i=0;i<80;i++){
-  const s=document.createElement('div');
-  s.className='star';
-  const sz=Math.random()*2.5+0.5;
-  s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-duration:${Math.random()*3+2}s;animation-delay:${Math.random()*3}s`;
-  starsEl.appendChild(s);
-}
+    </div>
+  </div>
 
-function goTo(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  if(id==='page3') initMaze();
-}
+  <!-- Page 2: Отказ -->
+  <div class="page" id="page2">
+    <div class="content">
+      <img src="https://avatars.mds.yandex.net/i?id=e2ca648efba2b4ae12b1401d88783839_l-10555888-images-thumbs&n=13" alt="грустно">
+      <!-- <h2></h2> -->
+      <p style="color:#d4a0c0; margin-bottom:1rem;">Не заебывай соглашайся</p>
+      <button class="btn-back" onclick="goTo('page1')">← Вернуться и подумать ещё раз</button>
+    </div>
+  </div>
 
-// Button No — runs away
-let noClicks=0;
-function handleNo(){
-  noClicks++;
-  if(noClicks>=4){
-    goTo('page2'); return;
-  }
-  const btn=document.getElementById('btnNo');
-  const parent=btn.parentElement;
-  const pw=parent.offsetWidth, ph=Math.max(parent.offsetHeight,100);
-  const bw=btn.offsetWidth, bh=btn.offsetHeight;
-  const x=Math.random()*(pw-bw)-pw/2;
-  const y=Math.random()*(ph+80)-ph/2-20;
-  btn.style.transform=`translate(${x}px,${y}px)`;
-  btn.style.transition='transform 0.3s ease';
-  const msgs=['...','Хм...','Нет — это не вариант 😏','Последний шанс...'];
-  btn.textContent=msgs[Math.min(noClicks,msgs.length-1)];
-}
+  <!-- Page 3: Лабиринт -->
+  <div class="page" id="page3">
+    <div class="content">
+      <h2>Докажи, что достойна!</h2>
+      <p>Проведи мышку по лабиринту, не касаясь стен 🖱️</p>
+      <canvas id="mazeCanvas" width="420" height="420"></canvas>
+      <div id="mazeMsg">Найди путь от ⭐ до 💕</div>
+    </div>
+  <div id="mazeMsg">Найди путь от ⭐ до 💕</div>
 
-// ---- MAZE ----
-const CELL=28, COLS=15, ROWS=15;
-let maze=[], visited=[], cx=0,cy=0, won=false, mouseOn=false, failTimeout=null;
-const failImgEl=document.getElementById('failImg');
-const failSrcs=[
-  'https://media.tenor.com/x8v1oNUOmg4AAAAi/roblox-death.gif',
-  'https://i.imgur.com/LQ7mpTk.gif',
-  'https://media.tenor.com/7_RcMB5QN8QAAAAi/cry.gif'
-];
-let failIdx=0;
+  <button class="btn-back" onclick="skipMaze()">
+    Пропустить испытание 😏
+  </button>
+  </div>
 
-function initMaze(){
-  won=false;
-  mouseOn=false;
-  const canvas=document.getElementById('mazeCanvas');
-  canvas.width=COLS*CELL+1; canvas.height=ROWS*CELL+1;
-  generateMaze();
-  cx=0.5; cy=0.5;
-  drawMaze();
-  document.getElementById('mazeMsg').textContent='Найди путь от ⭐ до 💕';
-  canvas.addEventListener('mousemove',onMouseMove,{passive:true});
-  canvas.addEventListener('mouseenter',()=>{mouseOn=true;});
-  canvas.addEventListener('mouseleave',()=>{mouseOn=false;});
-  canvas.addEventListener('touchmove',onTouch,{passive:false});
-}
+  <!-- Fail image overlay -->
+  <img id="failImg" class="fail-img" src="https://i.imgur.com/5QbKSo0.gif" alt="упс">
 
-function generateMaze(){
-  maze=[];
-  for(let r=0;r<ROWS;r++){
-    maze.push([]);
-    for(let c=0;c<COLS;c++) maze[r].push({top:true,right:true,bottom:true,left:true,visited:false});
-  }
-  function carve(r,c){
-    maze[r][c].visited=true;
-    const dirs = shuffle([
-  [-1,0,'top','bottom'],
-  [1,0,'bottom','top'],
-  [0,1,'right','left'],
-  [0,-1,'left','right']
-]);
-    for(const [dr,dc,wall,opp] of dirs){
-      const nr=r+dr, nc=c+dc;
-      if(nr>=0&&nr<ROWS&&nc>=0&&nc<COLS&&!maze[nr][nc].visited){
-        maze[r][c][wall]=false; maze[nr][nc][opp]=false; carve(nr,nc);
-      }
-    }
-  }
-  carve(0,0);
-}
+  <!-- Page 4: Победа -->
+  <div class="page" id="page4">
+    <div class="content">
+      <div class="trophy">🏆</div>
+      <h2>Невероятно.</h2>
+      <p>Ты прошла лабиринт. Видимо, тебе это правда было нужно. Или просто повезло. В любом случае — поздравляю, ты официально заслужила свидание со мной. 😏</p>
+      <button class="btn-yes" onclick="startQuiz()">Ладно, где идём? →</button>
+    </div>
+  </div>
 
-function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+  <!-- Page 5: Опрос -->
+  <div class="page" id="page5">
+    <div class="content" style="width:100%; max-width:500px;">
+      <h2>Давай выберем место</h2>
+      <div class="q-text" id="qText"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="q-progress" id="qProgress"></div>
+    </div>
+  </div>
 
-function drawMaze(){
-  const canvas=document.getElementById('mazeCanvas');
-  const ctx=canvas.getContext('2d');
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.strokeStyle='#e91e8c';
-  ctx.lineWidth=1.5;
-  for(let r=0;r<ROWS;r++){
-    for(let c=0;c<COLS;c++){
-      const x=c*CELL, y=r*CELL;
-      if(maze[r][c].top){ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+CELL,y);ctx.stroke();}
-      if(maze[r][c].right){ctx.beginPath();ctx.moveTo(x+CELL,y);ctx.lineTo(x+CELL,y+CELL);ctx.stroke();}
-      if(maze[r][c].bottom){ctx.beginPath();ctx.moveTo(x,y+CELL);ctx.lineTo(x+CELL,y+CELL);ctx.stroke();}
-      if(maze[r][c].left){ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y+CELL);ctx.stroke();}
-    }
-  }
-  // Start star
-  ctx.font=`${CELL-4}px serif`; ctx.textAlign='center'; ctx.textBaseline='middle';
-  ctx.fillText('⭐',CELL*0+CELL/2,CELL*0+CELL/2);
-  // End heart
-  ctx.fillText('💕',CELL*(COLS-1)+CELL/2,CELL*(ROWS-1)+CELL/2);
-  // Player
-  ctx.beginPath();
-  ctx.arc(cx*CELL,cy*CELL,5,0,Math.PI*2);
-  ctx.fillStyle='#fff';
-  ctx.fill();
-  ctx.beginPath();
-  ctx.arc(cx*CELL,cy*CELL,4,0,Math.PI*2);
-  ctx.fillStyle='#e91e8c';
-  ctx.fill();
-}
+  <!-- Page 6: Результат -->
+  <div class="page" id="page6">
+    <div class="content" style="width:100%; max-width:500px;">
+      <div class="result-box">
+        <div class="result-emoji" id="resEmoji"></div>
+        <h2>Идеальное свидание найдено!</h2>
+        <div class="result-title" id="resTitle"></div>
+        <div class="result-desc" id="resDesc"></div>
+        <ul class="result-details" id="resDetails"></ul>
+      </div>
+    </div>
+  </div>
 
-function onMouseMove(e){
-  if(won) return;
-  const canvas=document.getElementById('mazeCanvas');
-  const rect=canvas.getBoundingClientRect();
-  const scaleX=canvas.width/rect.width;
-  const scaleY=canvas.height/rect.height;
-  const mx=(e.clientX-rect.left)*scaleX/CELL;
-  const my=(e.clientY-rect.top)*scaleY/CELL;
-  movePlayer(mx,my);
-}
-
-function onTouch(e){
-  e.preventDefault();
-  if(won) return;
-  const canvas=document.getElementById('mazeCanvas');
-  const rect=canvas.getBoundingClientRect();
-  const scaleX=canvas.width/rect.width;
-  const scaleY=canvas.height/rect.height;
-  const t=e.touches[0];
-  const mx=(t.clientX-rect.left)*scaleX/CELL;
-  const my=(t.clientY-rect.top)*scaleY/CELL;
-  movePlayer(mx,my);
-}
-
-function movePlayer(mx,my){
-  const r=Math.floor(cy), c=Math.floor(cx);
-  const nr=Math.floor(my), nc=Math.floor(mx);
-  if(nr<0||nr>=ROWS||nc<0||nc>=COLS) return;
-  const cell=maze[r]?maze[r][c]:null;
-  if(!cell) return;
-  let hit=false;
-  // Check wall crossing
-  if(nc>c && cell.right) hit=true;
-  if(nc<c && cell.left) hit=true;
-  if(nr>r && cell.bottom) hit=true;
-  if(nr<r && cell.top) hit=true;
-  if(Math.abs(mx-cx)>0.9||Math.abs(my-cy)>0.9) hit=true;
-
-  if(hit){
-    onHitWall(); return;
-  }
-  cx=mx; cy=my;
-  drawMaze();
-  // Win condition
-  if(nr===ROWS-1&&nc===COLS-1){
-    won=true;
-    document.getElementById('mazeMsg').textContent='🎉 Ты прошла! Невероятно!';
-    setTimeout(()=>goTo('page4'),1200);
-  }
-}
-
-function onHitWall(){
-  // Sound
-  try{
-    const ac=new (window.AudioContext||window.webkitAudioContext)();
-    const o=ac.createOscillator(); const g=ac.createGain();
-    o.connect(g); g.connect(ac.destination);
-    o.type='sawtooth'; o.frequency.value=180;
-    g.gain.setValueAtTime(0.3,ac.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.3);
-    o.start(); o.stop(ac.currentTime+0.3);
-  }catch(e){}
-  // Show fail image
-  failImgEl.src=failSrcs[failIdx%failSrcs.length]; failIdx++;
-  failImgEl.classList.add('show');
-  if(failTimeout) clearTimeout(failTimeout);
-  failTimeout=setTimeout(()=>failImgEl.classList.remove('show'),1500);
-  // Reset player
-  cx=0.5; cy=0.5;
-  drawMaze();
-  document.getElementById('mazeMsg').textContent='Упс! Начинай сначала 😅';
-  setTimeout(()=>{document.getElementById('mazeMsg').textContent='Попробуй ещё раз!';},1500);
-}
-
-// ---- QUIZ ----
-const questions=[
-  {
-    q:'Какое настроение для свидания?',
-    opts:['Романтика и уют','Веселье и приключения','Что-то новое и необычное','Спокойно и неспешно']
-  },
-  {
-    q:'Что важнее всего?',
-    opts:['Вкусная еда','Хорошее место','Разговоры и атмосфера','Активность и движение']
-  },
-  {
-    q:'Идеальное время для свидания?',
-    opts:['Дневное — свежо и светло','Вечернее — огни и уют','Ночное — таинственно','В любое время!']
-  },
-  {
-    q:'Предпочтения в еде?',
-    opts:['Изысканный ресторан','Уютное кафе','Пикник на природе','Уличная еда и рынки']
-  }
-];
-
-const results=[
-  {emoji:'🍷',title:'Романтический ужин при свечах',desc:'Уютный итальянский ресторан с приглушённым светом и живой музыкой — идеальное место, чтобы погрузиться в атмосферу и поговорить обо всём на свете.',details:['Вино и паста под джаз','Свечи и уютные диваны','Прогулка по ночному городу в финале']},
-  {emoji:'🎪',title:'Вечер впечатлений',desc:'Сначала что-то яркое — арт-выставка, квест или мастер-класс — а потом бургеры в крутом месте. Гарантировано много смеха и историй.',details:['Совместное творчество или приключение','Фото на память','Неформально и весело']},
-  {emoji:'🌿',title:'Пикник в парке',desc:'Плед, корзинка с едой, хорошая музыка в наушниках и никакой спешки. Самое простое — иногда самое лучшее.',details:['Домашние угощения и термос','Золотой час заката','Долгие разговоры под открытым небом']},
-  {emoji:'🎡',title:'День приключений',desc:'Прогулка по новому кварталу, уличная еда, случайные открытия. Никакого плана — только любопытство и хорошая компания.',details:['Спонтанные решения','Вкусный десерт в конце','Каждый раз что-то неожиданное']}
-];
-
-let qIdx=0, scores=[0,0,0,0];
-
-function startQuiz(){
-  qIdx=0; scores=[0,0,0,0];
-  goTo('page5');
-  showQuestion();
-}
-
-function showQuestion(){
-  const q=questions[qIdx];
-  document.getElementById('qText').textContent=q.q;
-  document.getElementById('qProgress').textContent=`Вопрос ${qIdx+1} из ${questions.length}`;
-  const opts=document.getElementById('quizOptions');
-  opts.innerHTML='';
-  q.opts.forEach((opt,i)=>{
-    const btn=document.createElement('button');
-    btn.className='quiz-opt';
-    btn.textContent=opt;
-    btn.onclick=()=>pickAnswer(i);
-    opts.appendChild(btn);
-  });
-}
-
-function pickAnswer(i){
-  scores[i]++;
-  qIdx++;
-  if(qIdx<questions.length){ showQuestion(); }
-  else { showResult(); }
-}
-
-function showResult(){
-  // Find dominant score
-  let maxI=0;
-  scores.forEach((s,i)=>{ if(s>scores[maxI]) maxI=i; });
-  const r=results[maxI];
-  document.getElementById('resEmoji').textContent=r.emoji;
-  document.getElementById('resTitle').textContent=r.title;
-  document.getElementById('resDesc').textContent=r.desc;
-  const ul=document.getElementById('resDetails');
-  ul.innerHTML=r.details.map(d=>`<li>${d}</li>`).join('');
-  goTo('page6');
-}
-</script>
 </body>
+  <script src="./js/scripts.js"></script>
 </html>
