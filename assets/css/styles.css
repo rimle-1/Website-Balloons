@@ -155,17 +155,17 @@ body { background: #0a1a0d; }
 }
 
 .subtitle-mem{
-    font-size: 1.5rem;
+    font-size: 1rem;
     color: rgb(20, 116, 20);
     font-weight:bold;
-    letter-spacing: -3px;
+    /* letter-spacing: -3px; */
     transform: scaleY(2);
     transform: scaleX(1.5);
     /* border: 1px solid red */
 }
 
 .subtitle-mem-2 {
-    font-size: 1rem;
+    font-size: 1.5rem;
     letter-spacing: 3px;
     font-style: italic;
     letter-spacing: -2px;
