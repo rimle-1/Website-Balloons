@@ -584,43 +584,9 @@ function pickAnswer(i){
   else { showResult(); }
 }
 
-async function sendToTelegram(result, scores) {
-  const BOT_TOKEN = '8k';
-  const CHAT_ID = '52';
-
-  const text = `
-🎯 Новый результат опроса
-
-Результат: ${result.title}
-
-Очки:
-🛼 Ролики: ${scores[0]}
-🎮 Автоматы: ${scores[1]}
-🌆 Колоннада: ${scores[2]}
-🎲 Азартные игры: ${scores[3]}
-`;
-
-  try {
-    await fetch(
-      `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          chat_id: CHAT_ID,
-          text
-        })
-      }
-    );
-  } catch (err) {
-    console.error(err);
-  }
-}
 
 
-fasync function sendResult(result, scores) {
+async function sendResult(result, scores) {
   try {
     await fetch(
       'https://quiz-response.elmir3melzetdinov.workers.dev',
@@ -630,6 +596,7 @@ fasync function sendResult(result, scores) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+          secret: "kazavki",
           result: result.title,
           scores
         })
@@ -639,5 +606,16 @@ fasync function sendResult(result, scores) {
     console.error(e);
   }
 }
-
-
+function showResult(){
+  // Find dominant score
+  let maxI=0;
+  scores.forEach((s,i)=>{ if(s>scores[maxI]) maxI=i; });
+  const r=results[maxI];
+  sendResult(r, scores);
+  document.getElementById('resEmoji').textContent=r.emoji;
+  document.getElementById('resTitle').textContent=r.title;
+  document.getElementById('resDesc').textContent=r.desc;
+  const ul=document.getElementById('resDetails');
+  ul.innerHTML=r.details.map(d=>`<li>${d}</li>`).join('');
+  goTo('page6');
+}
