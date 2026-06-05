@@ -197,7 +197,7 @@ window.addEventListener('load', () => {
     justify-content:center;
     align-items:center;
     flex-direction:column;
-    background-image:url('/photo_2026-06-04_15-41-11.jpg');
+    background-image:url('./assets/image/photo_2026-06-04_15-41-11.jpg');
     background-size:cover;
     background-position:center;
     background-repeat:no-repeat;
