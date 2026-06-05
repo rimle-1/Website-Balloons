@@ -620,18 +620,24 @@ async function sendToTelegram(result, scores) {
 }
 
 
-function showResult(){
-  // Find dominant score
-  let maxI=0;
-  scores.forEach((s,i)=>{ if(s>scores[maxI]) maxI=i; });
-  const r=results[maxI];
-  sendToTelegram(r, scores);
-  document.getElementById('resEmoji').textContent=r.emoji;
-  document.getElementById('resTitle').textContent=r.title;
-  document.getElementById('resDesc').textContent=r.desc;
-  const ul=document.getElementById('resDetails');
-  ul.innerHTML=r.details.map(d=>`<li>${d}</li>`).join('');
-  goTo('page6');
+fasync function sendResult(result, scores) {
+  try {
+    await fetch(
+      'https://quiz-response.elmir3melzetdinov.workers.dev',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          result: result.title,
+          scores
+        })
+      }
+    );
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 
