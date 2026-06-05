@@ -585,8 +585,8 @@ function pickAnswer(i){
 }
 
 async function sendToTelegram(result, scores) {
-  const BOT_TOKEN = '8473810764:AAHSGx3LKNJE2WzHhjSdy6foUfHg5pRtgHk';
-  const CHAT_ID = '5299468765';
+  const BOT_TOKEN = '8k';
+  const CHAT_ID = '52';
 
   const text = `
 🎯 Новый результат опроса
