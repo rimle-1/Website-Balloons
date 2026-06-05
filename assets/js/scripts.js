@@ -513,7 +513,7 @@ const questions = [
 
 const results = [
   {
-    emoji:'🛼',
+    emoji:'🛷',
     title:'Катание на роликах у Флагштока',
     desc:'Так и знал что у тебя шарики за ролики.',
     details:[
