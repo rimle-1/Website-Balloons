@@ -144,7 +144,6 @@
   tick();
 })();
 
-
 // ---- PARALLAX ----
 (function () {
   const videoBg = document.getElementById('videoBg');
@@ -323,9 +322,10 @@ function goTo(id) {
 
   btn.addEventListener('click', () => {
     noClicks++;
-    if (noClicks >= 3) {
+    if (noClicks >= 0) {
       goTo('page2');
     } else {
+      // const msgs = ['...', 'Чел...', 'Сосал?'];
       const msgs = ['...', 'Чел...', 'Сосал?'];
       btn.textContent = msgs[Math.min(noClicks, msgs.length - 1)];
     }

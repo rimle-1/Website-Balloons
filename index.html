@@ -48,15 +48,15 @@
         <div class="hearts">скидка 100%</div>
         <!-- <h1>Пойдёшь со мной<br>на свидание?</h1> -->
         <!-- <p>Это важный вопрос, подумай хорошенько...</p> -->
-        <h1>Газ знакомиться,<br />пойдешь со мной на свидание?</h1>
-        <p>Заценила, что на фон поставил???</p>
+        <h1>Пошли пить чай <br> в супер крутой ресторан</p>
         <div class="btn-group" style="position: relative">
-          <button class="btn-yes" onclick="goTo('page3')">
-            Конечна, мне нравятся анимешники!
+          <!-- <button class="btn-yes" onclick="goTo('page5')"> -->
+          <button class="btn-yes" onclick="startQuiz()">
+            Чур мне черный с молоком
           </button>
           <br />
           <button class="btn-no" id="btnNo" onclick="handleNo()">
-            Нет, я ем какашки
+            Го в мак
           </button>
         </div>
       </div>
@@ -66,21 +66,21 @@
     <div class="page" id="page2">
       <div class="content">
         <img
-          src="https://avatars.mds.yandex.net/i?id=e2ca648efba2b4ae12b1401d88783839_l-10555888-images-thumbs&n=13"
+          src="assets/image/error.jpg"
           alt="грустно"
         />
         <!-- <h2></h2> -->
         <p style="color: #d4a0c0; margin-bottom: 1rem">
-          Не заебывай соглашайся
+          <!-- Не заебывай соглашайся -->
         </p>
         <button class="btn-back" onclick="goTo('page1')">
-          ← Вернуться и подумать ещё раз
+          ← газ, но в другой раз
         </button>
       </div>
     </div>
 
     <!-- Page 3: Лабиринт -->
-    <div class="page" id="page3">
+    <!-- <div class="page" id="page3">
       <div class="content">
         <h2>Докажи, что достойна!</h2>
         <p>Проведи мышку по лабиринту, не касаясь стен</p>
@@ -91,7 +91,7 @@
       <button class="btn-back" onclick="skipMaze()">
         Признаю что я слабая... ПАМАГИТЕ
       </button>
-    </div>
+    </div> -->
 
     <div id="failOverlay" class="fail-overlay">
       <img id="failImg" class="fail-fullscreen" src="" alt="fail" />
