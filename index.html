@@ -1,132 +1,146 @@
-﻿<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/styles.css">
-<title>Приглашение</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+    <title>Приглашение</title>
+  </head>
+  <body>
+    <div id="cursor"></div>
 
-  <div id="cursor"></div>
+    <!-- SVG-фильтр зернистости — скрытый, нужен только как источник -->
+    <svg style="position: absolute; width: 0; height: 0">
+      <filter id="grainFilter">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.65"
+          numOctaves="3"
+          stitchTiles="stitch"
+        />
+        <feColorMatrix type="saturate" values="0" />
+      </filter>
+    </svg>
 
-  <!-- SVG-фильтр зернистости — скрытый, нужен только как источник -->
-  <svg style="position:absolute; width:0; height:0;">
-    <filter id="grainFilter">
-      <feTurbulence
-        type="fractalNoise"
-        baseFrequency="0.65"   
-        
-        numOctaves="3"
-        stitchTiles="stitch"/>
-      <feColorMatrix type="saturate" values="0"/>
-    </filter>
-  </svg>
+    <div id="grain"></div>
 
-  <div id="grain"></div>
+    <video id="videoBg" autoplay loop playsinline>
+      <!-- <source src="./assets/image/ys46jr5ha9r00qyc1u3vqk1b 4K.mp4" type="video/mp4"> -->
+      <source src="./assets/image/fon_restaran_2.mov" type="video/mp4" />
+    </video>
+    <div id="videoOverlay"></div>
+    <!-- <div class="stars" id="stars"></div> -->
 
-  <video id="videoBg" autoplay muted loop playsinline>
-    <!-- <source src="./assets/image/ys46jr5ha9r00qyc1u3vqk1b 4K.mp4" type="video/mp4"> -->
-        <source src="./assets/image/banner.mp4" type="video/mp4">
+    <canvas id="bubblesCanvas"></canvas>
 
-  </video>
-  <div id="videoOverlay"></div>
-  <!-- <div class="stars" id="stars"></div> -->
-
-  <canvas id="bubblesCanvas"></canvas>
-
-  <!-- Page 1: Вопрос -->
-  <div class="page active" id="page1">
-    <div class="content">
-      <div class="title-mem">Я знаю себе цену</div>
-      <div class="subtitle-mem">и сейчаc</div>
-      <div class="subtitle-mem-2">по акции</div>
-      <div class="hearts">скидка 100%</div>
-      <!-- <h1>Пойдёшь со мной<br>на свидание?</h1> -->
-      <!-- <p>Это важный вопрос, подумай хорошенько...</p> -->
-      <h1>Газ знакомиться,<br>пойдешь со мной на свидание?</h1>
-      <p>Заценила, что на фон поставил???</p>
-      <div class="btn-group" style="position:relative;">
-        <button class="btn-yes" onclick="goTo('page3')">Конечна, мне нравятся анимешники! </button> <br>
-        <button class="btn-no" id="btnNo" onclick="handleNo()">Нет, я ем какашки</button>
+    <!-- Page 1: Вопрос -->
+    <div class="page active" id="page1">
+      <div class="content">
+        <div class="title-mem">Я знаю себе цену</div>
+        <div class="subtitle-mem">и сейчаc</div>
+        <div class="subtitle-mem-2">по акции</div>
+        <div class="hearts">скидка 100%</div>
+        <!-- <h1>Пойдёшь со мной<br>на свидание?</h1> -->
+        <!-- <p>Это важный вопрос, подумай хорошенько...</p> -->
+        <h1>Газ знакомиться,<br />пойдешь со мной на свидание?</h1>
+        <p>Заценила, что на фон поставил???</p>
+        <div class="btn-group" style="position: relative">
+          <button class="btn-yes" onclick="goTo('page3')">
+            Конечна, мне нравятся анимешники!
+          </button>
+          <br />
+          <button class="btn-no" id="btnNo" onclick="handleNo()">
+            Нет, я ем какашки
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Page 2: Отказ -->
-  <div class="page" id="page2">
-    <div class="content">
-      <img src="https://avatars.mds.yandex.net/i?id=e2ca648efba2b4ae12b1401d88783839_l-10555888-images-thumbs&n=13" alt="грустно">
-      <!-- <h2></h2> -->
-      <p style="color:#d4a0c0; margin-bottom:1rem;">Не заебывай соглашайся</p>
-      <button class="btn-back" onclick="goTo('page1')">← Вернуться и подумать ещё раз</button>
-    </div>
-  </div>
-
-  <!-- Page 3: Лабиринт -->
-  <div class="page" id="page3">
-    <div class="content">
-      <h2>Докажи, что достойна!</h2>
-      <p>Проведи мышку по лабиринту, не касаясь стен</p>
-      <canvas id="mazeCanvas" width="420" height="420"></canvas>
-    </div>
-  <div id="mazeMsg">Найди путь от 💩 до 💗</div>
-
-  <button class="btn-back" onclick="skipMaze()">
-    Признаю что я слабая... ПАМАГИТЕ
-  </button>
-  </div>
-  
-  <div id="failOverlay" class="fail-overlay">
-    <img id="failImg" class="fail-fullscreen" src="" alt="fail">
-
-    <button class="btn-yes restart-btn" onclick="restartMaze()">
-      я лох начать сначала
-    </button>
-
-    <!-- Твой звук -->
-    <audio id="failSound" src="./assets/image/kiss.mp3"></audio>
-  </div>
-
-  <!-- Fail image overlay -->
-  <!-- <img id="failImg" class="fail-img" src="https://i.imgur.com/5QbKSo0.gif" alt="упс"> -->
-
-  <!-- Page 4: Победа -->
-  <div class="page" id="page4">
-    <div class="content">
-      <div class="trophy">🏆</div>
-      <h2>Невероятно.</h2>
-      <p>Ты прошла! </p>
-      <button class="btn-yes" onclick="startQuiz()">Ладно, осталось чуть-чуть →</button>
-    </div>
-  </div>
-
-  <!-- Page 5: Опрос -->
-  <div class="page" id="page5">
-    <div class="content" style="width:100%; max-width:500px;">
-      <h2>Давай выберем место</h2>
-      <div class="q-text" id="qText"></div>
-      <div class="quiz-options" id="quizOptions"></div>
-      <div class="q-progress" id="qProgress"></div>
-    </div>
-  </div>
-
-  <!-- Page 6: Результат -->
-  <div class="page" id="page6">
-    <div class="content" style="width:100%; max-width:500px;">
-      <div class="result-box">
-        <div class="result-emoji" id="resEmoji"></div>
-        <h2>Идеальное вечер подобран!</h2>
-        <div class="result-title" id="resTitle"></div>
-        <div class="result-desc" id="resDesc"></div>
-        <ul class="result-details" id="resDetails"></ul>
+    <!-- Page 2: Отказ -->
+    <div class="page" id="page2">
+      <div class="content">
+        <img
+          src="https://avatars.mds.yandex.net/i?id=e2ca648efba2b4ae12b1401d88783839_l-10555888-images-thumbs&n=13"
+          alt="грустно"
+        />
+        <!-- <h2></h2> -->
+        <p style="color: #d4a0c0; margin-bottom: 1rem">
+          Не заебывай соглашайся
+        </p>
+        <button class="btn-back" onclick="goTo('page1')">
+          ← Вернуться и подумать ещё раз
+        </button>
       </div>
     </div>
-  </div>
 
-</body>
+    <!-- Page 3: Лабиринт -->
+    <div class="page" id="page3">
+      <div class="content">
+        <h2>Докажи, что достойна!</h2>
+        <p>Проведи мышку по лабиринту, не касаясь стен</p>
+        <canvas id="mazeCanvas" width="420" height="420"></canvas>
+      </div>
+      <div id="mazeMsg">Найди путь от 💩 до 💗</div>
+
+      <button class="btn-back" onclick="skipMaze()">
+        Признаю что я слабая... ПАМАГИТЕ
+      </button>
+    </div>
+
+    <div id="failOverlay" class="fail-overlay">
+      <img id="failImg" class="fail-fullscreen" src="" alt="fail" />
+
+      <button class="btn-yes restart-btn" onclick="restartMaze()">
+        я лох начать сначала
+      </button>
+
+      <!-- Твой звук -->
+      <audio id="failSound" src="./assets/image/kiss.mp3"></audio>
+    </div>
+
+    <!-- Fail image overlay -->
+    <!-- <img id="failImg" class="fail-img" src="https://i.imgur.com/5QbKSo0.gif" alt="упс"> -->
+
+    <!-- Page 4: Победа -->
+    <div class="page" id="page4">
+      <div class="content">
+        <div class="trophy">🏆</div>
+        <h2>Невероятно.</h2>
+        <p>Ты прошла!</p>
+        <button class="btn-yes" onclick="startQuiz()">
+          Ладно, осталось чуть-чуть →
+        </button>
+      </div>
+    </div>
+
+    <!-- Page 5: Опрос -->
+    <div class="page" id="page5">
+      <div class="content" style="width: 100%; max-width: 500px">
+        <h2>Давай выберем место</h2>
+        <div class="q-text" id="qText"></div>
+        <div class="quiz-options" id="quizOptions"></div>
+        <div class="q-progress" id="qProgress"></div>
+      </div>
+    </div>
+
+    <!-- Page 6: Результат -->
+    <div class="page" id="page6">
+      <div class="content" style="width: 100%; max-width: 500px">
+        <div class="result-box">
+          <div class="result-emoji" id="resEmoji"></div>
+          <h2>Идеальное вечер подобран!</h2>
+          <div class="result-title" id="resTitle"></div>
+          <div class="result-desc" id="resDesc"></div>
+          <ul class="result-details" id="resDetails"></ul>
+        </div>
+      </div>
+    </div>
+  </body>
   <script src="./assets/js/scripts.js"></script>
 </html>
