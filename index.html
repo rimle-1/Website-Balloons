@@ -1,316 +1,132 @@
-﻿<!doctype html>
+﻿<!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Шары.Ру — Доставка воздушных шаров</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
-    <link rel="stylesheet" href="assets/css/styles.css" />
-    <link rel="icon" href="assets/image/logo.png" type="image/x-icon" />
-  </head>
-  <body>
-    <header class="header">
-      <div class="container nav-container">
-        <a href="#" class="logo">
-          <img src="assets/image/logo.png" alt="Logo" style="width: 30px" />
-          <span>Шары.Ру</span>
-        </a>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./assets/css/styles.css">
+<title>Приглашение</title>
+</head>
+<body>
 
-        <button class="burger-menu" id="burgerToggle">
-          <span></span><span></span><span></span>
-        </button>
+  <div id="cursor"></div>
 
-        <nav class="nav-menu" id="navMenu">
-          <a href="#catalog">Каталог</a>
-          <a href="#benefits">О нас</a>
-          <a href="#" id="contactLinkNav">Контакты</a>
-        </nav>
-        <!-- <div class="user-actions">
-          <div class="cart-wrapper">
-            <i class="fa-solid fa-cart-shopping"></i>
-            <span class="cart-count">0</span>
-          </div>
-        </div> -->
-      </div>
-    </header>
+  <!-- SVG-фильтр зернистости — скрытый, нужен только как источник -->
+  <svg style="position:absolute; width:0; height:0;">
+    <filter id="grainFilter">
+      <feTurbulence
+        type="fractalNoise"
+        baseFrequency="0.65"   
+        
+        numOctaves="3"
+        stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+  </svg>
 
-    <section class="hero">
-      <div class="container">
-        <h1>
-          Воздушные шары <br />
-          для вашего праздника!
-        </h1>
-        <p>Выберите способ связи и оформите заказ за 1 минуту</p>
-        <button class="btn-primary" onclick="scrollToCatalog()">
-          Выбрать шары
-        </button>
-      </div>
-    </section>
+  <div id="grain"></div>
 
-    <div class="container filter-section">
-      <div class="filter-container">
-        <button class="filter-btn active" data-filter="all">Все</button>
-        <button class="filter-btn" data-filter="love">Сердца</button>
-        <button class="filter-btn" data-filter="word">Надписи</button>
-        <button class="filter-btn" data-filter="joke">Юмор</button>
+  <video id="videoBg" autoplay muted loop playsinline>
+    <!-- <source src="./assets/image/ys46jr5ha9r00qyc1u3vqk1b 4K.mp4" type="video/mp4"> -->
+        <source src="./assets/image/banner.mp4" type="video/mp4">
+
+  </video>
+  <div id="videoOverlay"></div>
+  <!-- <div class="stars" id="stars"></div> -->
+
+  <canvas id="bubblesCanvas"></canvas>
+
+  <!-- Page 1: Вопрос -->
+  <div class="page active" id="page1">
+    <div class="content">
+      <div class="title-mem">Я знаю себе цену</div>
+      <div class="subtitle-mem">и сейчаc</div>
+      <div class="subtitle-mem-2">по акции</div>
+      <div class="hearts">скидка 100%</div>
+      <!-- <h1>Пойдёшь со мной<br>на свидание?</h1> -->
+      <!-- <p>Это важный вопрос, подумай хорошенько...</p> -->
+      <h1>Газ знакомиться,<br>пойдешь со мной на свидание?</h1>
+      <p>Заценила, что на фон поставил???</p>
+      <div class="btn-group" style="position:relative;">
+        <button class="btn-yes" onclick="goTo('page3')">Конечна, мне нравятся анимешники! </button> <br>
+        <button class="btn-no" id="btnNo" onclick="handleNo()">Нет, я ем какашки</button>
       </div>
     </div>
+  </div>
 
-    <section class="catalog container" id="catalog">
-      <div class="product-card" data-category="love">
-        <div class="product-img">
-          <img src="assets/image/1.png" alt="Набор" />
-        </div>
-        <div class="product-info">
-          <div class="product-header">
-            <h4>
-              Набор «Магия контраста» <br />
-              (10 шаров)
-            </h4>
-            <span class="price">4 990 ₽</span>
-          </div>
-          <button class="btn-cart">Заказать</button>
-        </div>
-      </div>
+  <!-- Page 2: Отказ -->
+  <div class="page" id="page2">
+    <div class="content">
+      <img src="https://avatars.mds.yandex.net/i?id=e2ca648efba2b4ae12b1401d88783839_l-10555888-images-thumbs&n=13" alt="грустно">
+      <!-- <h2></h2> -->
+      <p style="color:#d4a0c0; margin-bottom:1rem;">Не заебывай соглашайся</p>
+      <button class="btn-back" onclick="goTo('page1')">← Вернуться и подумать ещё раз</button>
+    </div>
+  </div>
 
-      <div class="product-card" data-category="love">
-        <div class="product-img">
-          <img src="assets/image/2.png" alt="Набор" />
-        </div>
-        <div class="product-info">
-          <div class="product-header">
-            <h4>
-              Набор «Кофейные сердца» <br />
-              (10 шаров)
-            </h4>
-            <span class="price">4 990 ₽</span>
-          </div>
-          <button class="btn-cart">Заказать</button>
-        </div>
-      </div>
+  <!-- Page 3: Лабиринт -->
+  <div class="page" id="page3">
+    <div class="content">
+      <h2>Докажи, что достойна!</h2>
+      <p>Проведи мышку по лабиринту, не касаясь стен</p>
+      <canvas id="mazeCanvas" width="420" height="420"></canvas>
+    </div>
+  <div id="mazeMsg">Найди путь от 💩 до 💗</div>
 
-      <div class="product-card" data-category="love">
-        <div class="product-img">
-          <img src="assets/image/3.png" alt="Набор" />
-        </div>
-        <div class="product-info">
-          <div class="product-header">
-            <h4>
-              Набор «Облако нежности» <br />
-              (10 шаров)
-            </h4>
-            <span class="price">4 990 ₽</span>
-          </div>
-          <button class="btn-cart">Заказать</button>
-        </div>
-      </div>
+  <button class="btn-back" onclick="skipMaze()">
+    Признаю что я слабая... ПАМАГИТЕ
+  </button>
+  </div>
+  
+  <div id="failOverlay" class="fail-overlay">
+    <img id="failImg" class="fail-fullscreen" src="" alt="fail">
 
-      <div class="product-card" data-category="love">
-        <div class="product-img">
-          <img src="assets/image/4.png" alt="Набор" />
-        </div>
-        <div class="product-info">
-          <div class="product-header">
-            <h4>
-              Набор «Классика страсти» <br />
-              (10 шаров)
-            </h4>
-            <span class="price">4 990 ₽</span>
-          </div>
-          <button class="btn-cart">Заказать</button>
-        </div>
-      </div>
+    <button class="btn-yes restart-btn" onclick="restartMaze()">
+      я лох начать сначала
+    </button>
 
-      <div class="product-card" data-category="love">
-        <div class="product-img">
-          <img src="assets/image/5.png" alt="Набор" />
-        </div>
-        <div class="product-info">
-          <div class="product-header">
-            <h4>
-              Набор «Розовая мечта» <br />
-              (10 шаров)
-            </h4>
-            <span class="price">4 990 ₽</span>
-          </div>
-          <button class="btn-cart">Заказать</button>
-        </div>
-      </div>
+    <!-- Твой звук -->
+    <audio id="failSound" src="./assets/image/kiss.mp3"></audio>
+  </div>
 
-      <div class="product-card" data-category="love">
-        <div class="product-img">
-          <img src="assets/image/6.webp" alt="Набор" />
-        </div>
-        <div class="product-info">
-          <div class="product-header">
-            <h4>
-              Шар «Сердце-великана» <br />
-              (1 шар)
-            </h4>
-            <span class="price">2 990 ₽</span>
-          </div>
-          <button class="btn-cart">Заказать</button>
-        </div>
-      </div>
+  <!-- Fail image overlay -->
+  <!-- <img id="failImg" class="fail-img" src="https://i.imgur.com/5QbKSo0.gif" alt="упс"> -->
 
-      <div class="product-card" data-category="word">
-        <div class="product-img">
-          <img src="assets/image/7.webp" alt="Набор" />
-        </div>
-        <div class="product-info">
-          <div class="product-header">
-            <h4>Набор «Признание в буквах»</h4>
-            <span class="price">1 990 ₽</span>
-          </div>
-          <button class="btn-cart">Заказать</button>
-        </div>
-      </div>
+  <!-- Page 4: Победа -->
+  <div class="page" id="page4">
+    <div class="content">
+      <div class="trophy">🏆</div>
+      <h2>Невероятно.</h2>
+      <p>Ты прошла! </p>
+      <button class="btn-yes" onclick="startQuiz()">Ладно, осталось чуть-чуть →</button>
+    </div>
+  </div>
 
-      <div class="product-card adult locked" data-category="joke">
-        <div class="adult-overlay">
-          <span>18+</span>
-          <small>Нажмите, чтобы посмотреть</small>
-        </div>
+  <!-- Page 5: Опрос -->
+  <div class="page" id="page5">
+    <div class="content" style="width:100%; max-width:500px;">
+      <h2>Давай выберем место</h2>
+      <div class="q-text" id="qText"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="q-progress" id="qProgress"></div>
+    </div>
+  </div>
 
-        <div class="product-img">
-          <img src="assets/image/8.webp" alt="Набор" />
-        </div>
-
-        <div class="product-info">
-          <div class="product-header">
-            <h4>Шар «Озорной сюрприз»</h4>
-            <span class="price">3 590 ₽</span>
-          </div>
-          <button class="btn-cart">Заказать</button>
-        </div>
-      </div>
-    </section>
-
-    <section class="benefits" id="benefits">
-      <div class="container">
-        <div class="benefits-grid">
-          <div class="benefit-card">
-            <div class="benefit-icon">
-              <i class="fa-solid fa-truck-fast"></i>
-            </div>
-            <h4>Доставка 24/7</h4>
-            <p>Доставим ваш заказ в любое время суток прямо до двери.</p>
-          </div>
-          <div class="benefit-card">
-            <div class="benefit-icon"><i class="fa-solid fa-award"></i></div>
-            <h4>Гарантия полета</h4>
-            <p>Все шары обрабатываются Hi-Float для долгого полета.</p>
-          </div>
-          <div class="benefit-card">
-            <div class="benefit-icon">
-              <i class="fa-solid fa-camera-retro"></i>
-            </div>
-            <h4>Фото перед отправкой</h4>
-            <p>Пришлем фото готовой композиции перед выездом курьера.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="custom-order container">
-      <div class="container">
-        <div class="custom-order-content">
-          <h2>Не нашли то, что искали?</h2>
-          <p>
-            Мы готовы создать дизайн воздушных шаров конкретно под ваше
-            мероприятие! Свяжитесь с нами для индивидуального расчета.
-          </p>
-          <a
-            href="https://wa.me/79991358988"
-            class="btn-wa-large"
-            target="_blank"
-          >
-            <i class="fa-brands fa-whatsapp"></i> Написать в WhatsApp
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <div class="container">
-        <div class="footer-grid">
-          <div>
-            <a href="#" class="footer-logo">Шары.Ру</a>
-            <p style="color: #aaa; font-size: 14px; margin-top: 10px">
-              Дарим яркие эмоции.
-            </p>
-            <div class="footer-social">
-              <a href="https://vk.ru/club235311611" class="social-icon"
-                ><i class="fa-brands fa-vk"></i
-              ></a>
-              <a href="https://t.me/aerial_fairy_tale" class="social-icon"
-                ><i class="fa-brands fa-telegram"></i
-              ></a>
-            </div>
-          </div>
-          <div>
-            <h5 style="margin-bottom: 15px">Каталог</h5>
-            <ul class="footer-links">
-              <li><a href="#catalog">Наборы шаров</a></li>
-              <li><a href="#catalog">Цифры</a></li>
-            </ul>
-          </div>
-          <div>
-            <h5 style="margin-bottom: 15px">Контакты</h5>
-            <ul class="footer-links">
-              <li><a href="tel:+79991358988">+7 (999) 135-89-88</a></li>
-              <li><a href="">город Санкт-Петербург</a></li>
-            </ul>
-          </div>
-        </div>
-        <div
-          style="
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid #333;
-            font-size: 12px;
-            color: #777;
-          "
-        >
-          &copy; 2026 Шары.Ру. Все права защищены.
-        </div>
-      </div>
-    </footer>
-
-    <div id="orderModal" class="modal">
-      <div class="modal-content">
-        <span class="close-modal" id="closeOrderModal">&times;</span>
-        <div style="font-size: 50px; margin-bottom: 15px">🎈</div>
-        <h2 style="margin-bottom: 15px">Оформить заказ</h2>
-        <p>Выберите удобный способ связи. Мы ответим вам в течение 5 минут!</p>
-        <div class="contact-buttons">
-          <a href="tel:+79991358988" class="c-btn phone"
-            ><i class="fa-solid fa-phone"></i> Позвонить</a
-          >
-          <a href="https://t.me/aerial_fairy_tale" class="c-btn tg"
-            ><i class="fa-brands fa-telegram"></i> Telegram</a
-          >
-          <a href="https://wa.me/79991358988" class="c-btn wa"
-            ><i class="fa-brands fa-whatsapp"></i> WhatsApp</a
-          >
-          <a href="https://vk.ru/club235311611" class="c-btn vk"
-            ><i class="fa-brands fa-vk"></i> Вконтакте</a
-          >
-          <a
-            href="https://www.instagram.com/aerial_fairy_talee?igsh=MWVqbWtjcDh2NGRpeA=="
-            class="c-btn inst"
-            ><i class="fa-brands fa-instagram"></i> Instagram</a
-          >
-        </div>
+  <!-- Page 6: Результат -->
+  <div class="page" id="page6">
+    <div class="content" style="width:100%; max-width:500px;">
+      <div class="result-box">
+        <div class="result-emoji" id="resEmoji"></div>
+        <h2>Идеальное вечер подобран!</h2>
+        <div class="result-title" id="resTitle"></div>
+        <div class="result-desc" id="resDesc"></div>
+        <ul class="result-details" id="resDetails"></ul>
       </div>
     </div>
-    <script src="assets/js/scripts.js"></script>
-  </body>
+  </div>
+
+</body>
+  <script src="./assets/js/scripts.js"></script>
 </html>
