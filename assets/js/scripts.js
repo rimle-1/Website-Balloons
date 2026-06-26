@@ -9,12 +9,12 @@
 
   // ---- CONFIG ----
   const COUNT = 55; // кол-во огней одновременно
-  const REPEL_RADIUS = 400;
-  const REPEL_STRENGTH = 0.4;
+  const REPEL_RADIUS = 150;
+  const REPEL_STRENGTH = 0.9;
 
   const R_MIN = 18,
     R_MAX = 70; // размер кружков боке
-  const DRIFT_SPEED = 0.18; // скорость медленного дрейфа
+  const DRIFT_SPEED = 0.58; // скорость медленного дрейфа
   const FADE_SPEED_MIN = 0.001; // скорость затухания/появления
   const FADE_SPEED_MAX = 0.002;
   const ALPHA_MAX_MIN = 0.12; // максимальная прозрачность огня
@@ -143,6 +143,56 @@
 
   tick();
 })();
+
+const photos = ['/assets/image/1.png', '/assets/image/2.png', '/assets/image/3.png', '/assets/image/4.png', '/assets/image/5.png'];
+
+function initSlider() {
+  const seen   = parseInt(localStorage.getItem('seenPhotos') || '0');
+  const img    = document.getElementById('currentPhoto');
+  const slider = document.getElementById('photoSlider');
+  const hint   = document.getElementById('photoHint');
+
+  // Показывать подсказку только если пользователь ещё ни разу не тыкал
+  const hintDone = localStorage.getItem('hintDone') === 'true';
+  if (hintDone) hint.style.display = 'none';
+
+  if (seen >= photos.length) {
+    slider.style.display = 'none';
+    return;
+  }
+
+  img.src = photos[seen];
+
+  slider.addEventListener('click', () => {
+    // Скрыть подсказку навсегда после первого клика
+    if (!localStorage.getItem('hintDone')) {
+      localStorage.setItem('hintDone', 'true');
+      hint.classList.add('hidden');
+      setTimeout(() => hint.style.display = 'none', 500);
+    }
+
+    const current = parseInt(localStorage.getItem('seenPhotos') || '0');
+    const next = current + 1;
+
+    img.classList.add('hiding');
+
+    setTimeout(() => {
+      localStorage.setItem('seenPhotos', next);
+
+      if (next >= photos.length) {
+        slider.style.display = 'none';
+        return;
+      }
+
+      img.src = photos[next];
+      img.classList.remove('hiding');
+      img.classList.add('showing');
+      setTimeout(() => img.classList.remove('showing'), 400);
+    }, 400);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initSlider);
 
 // ---- PARALLAX ----
 (function () {
@@ -316,8 +366,8 @@ function goTo(id) {
     lastMX = e.clientX;
     lastMY = e.clientY;
 
-    cancelAnimationFrame(animId);
-    update(e.clientX, e.clientY);
+    // cancelAnimationFrame(animId);
+    // update(e.clientX, e.clientY);
   });
 
   btn.addEventListener('click', () => {

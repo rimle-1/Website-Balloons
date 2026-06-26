@@ -30,9 +30,10 @@
 
     <div id="grain"></div>
 
-    <video id="videoBg" autoplay loop playsinline>
+    <video id="videoBg" autoplay muted loop playsinline>
       <!-- <source src="./assets/image/ys46jr5ha9r00qyc1u3vqk1b 4K.mp4" type="video/mp4"> -->
-      <source src="./assets/image/fon_restaran_2.mov" type="video/mp4" />
+      <source src="./assets/image/fon_restaran_2.mp4" type="video/mp4" />
+
     </video>
     <div id="videoOverlay"></div>
     <!-- <div class="stars" id="stars"></div> -->
@@ -42,10 +43,16 @@
     <!-- Page 1: Вопрос -->
     <div class="page active" id="page1">
       <div class="content">
-        <div class="title-mem">Я знаю себе цену</div>
-        <div class="subtitle-mem">и сейчаc</div>
-        <div class="subtitle-mem-2">по акции</div>
-        <div class="hearts">скидка 100%</div>
+       
+       <div class="photo-slider" id="photoSlider">
+        <img id="currentPhoto" src="photo1.jpg" alt="">
+        <div class="photo-hint" id="photoHint">
+          <div class="hint-ripple"></div>
+          
+          <div class="hint-ripple"></div>
+          <div class="hint-finger">click</div>
+        </div>
+      </div>
         <!-- <h1>Пойдёшь со мной<br>на свидание?</h1> -->
         <!-- <p>Это важный вопрос, подумай хорошенько...</p> -->
         <h1>Пошли пить чай <br> в супер крутой ресторан</p>
